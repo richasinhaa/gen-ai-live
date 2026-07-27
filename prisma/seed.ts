@@ -30,6 +30,18 @@ function cohortCode(prefix: string, startsOn: Date): string {
   return `${prefix}-${p.year}-${String(p.month).padStart(2, "0")}`;
 }
 
+/// Re-running the seed refreshes the demo schedule — but only while nobody has
+/// paid. Once a cohort has a confirmed enrolment its dates are frozen here:
+/// people have put those sessions in their calendars, and a schedule change is
+/// something you make from the admin screen so they get told.
+async function isScheduleLocked(code: string): Promise<boolean> {
+  const cohort = await prisma.cohort.findUnique({
+    where: { code },
+    select: { _count: { select: { enrollments: { where: { status: "CONFIRMED" } } } } },
+  });
+  return (cohort?._count.enrollments ?? 0) > 0;
+}
+
 async function main() {
   // -------------------------------------------------------------------------
   // Programmes
@@ -164,11 +176,10 @@ async function main() {
     },
   ];
 
+  const researchLocked = await isScheduleLocked(cohortCode("RAG", researchStart));
   const researchCohort = await prisma.cohort.upsert({
     where: { code: cohortCode("RAG", researchStart) },
-    // Re-seeding refreshes the demo schedule; on a live cohort you would move
-    // dates from the admin screen instead, so learners get told.
-    update: { startsOn: researchStart, endsOn: addDays(researchStart, 28) },
+    update: researchLocked ? {} : { startsOn: researchStart, endsOn: addDays(researchStart, 28) },
     create: {
       programId: research.id,
       code: cohortCode("RAG", researchStart),
@@ -186,9 +197,9 @@ async function main() {
     const startsAt = addDays(researchStart, index * 7);
     await prisma.cohortSession.upsert({
       where: { cohortId_sequence: { cohortId: researchCohort.id, sequence: index + 1 } },
-      // Sessions are corrected on re-seed: schedule drift is the whole reason
-      // you would run this again.
-      update: { title: session.title, summary: session.summary, startsAt },
+      update: researchLocked
+        ? { title: session.title, summary: session.summary }
+        : { title: session.title, summary: session.summary, startsAt },
       create: {
         cohortId: researchCohort.id,
         sequence: index + 1,
@@ -223,9 +234,10 @@ async function main() {
     ["Capstone: ship one workflow", "You present the AI-assisted workflow you built during the batch and get live critique."],
   ] as const;
 
+  const ecoLocked = await isScheduleLocked(cohortCode("ECO", ecoStart));
   const ecoCohort = await prisma.cohort.upsert({
     where: { code: cohortCode("ECO", ecoStart) },
-    update: { startsOn: ecoStart, endsOn: addDays(ecoStart, 63) },
+    update: ecoLocked ? {} : { startsOn: ecoStart, endsOn: addDays(ecoStart, 63) },
     create: {
       programId: ecosystem.id,
       code: cohortCode("ECO", ecoStart),
@@ -245,7 +257,7 @@ async function main() {
     const startsAt = addDays(ecoStart, weekend * 7 + dayOffset);
     await prisma.cohortSession.upsert({
       where: { cohortId_sequence: { cohortId: ecoCohort.id, sequence: index + 1 } },
-      update: { title, summary, startsAt },
+      update: ecoLocked ? { title, summary } : { title, summary, startsAt },
       create: {
         cohortId: ecoCohort.id,
         sequence: index + 1,

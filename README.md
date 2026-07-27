@@ -144,20 +144,71 @@ Screenshots of every public page at desktop and mobile width:
 node scripts/screenshot.mjs    # writes to /tmp/shots
 ```
 
-## Deploying
+## Deploying to Railway
 
-Any host that runs Next.js 15 with a Postgres database. On Vercel:
+`railway.json` in the repo root already sets the build, pre-deploy, start and health-check
+commands, so Railway needs no dashboard configuration for those.
 
-1. Set every environment variable from the table above.
-2. Build command `npm run build` (it runs `prisma generate` first).
-3. Run `npx prisma migrate deploy` against the production database before the first release and on
-   any schema change.
-4. Seed once — `npm run db:seed` — to create the programmes, then manage everything from `/admin`.
-5. Point the Razorpay webhook at the deployed URL.
+**1. Create the services.** New project → *Deploy from GitHub repo*, pointed at this repo and the
+branch you want. Then *+ New* → *Database* → *PostgreSQL* in the same project.
 
-Rate limiting is in-process and resets on deploy. It is there to blunt a bot on the booking form,
-not as a security boundary — if the site ever runs on more than one instance, move
-`src/lib/rate-limit.ts` to Redis.
+**2. Wire the database.** On the app service, add a variable referencing the Postgres service
+rather than pasting a literal connection string — Railway keeps it correct if credentials rotate:
+
+```
+DATABASE_URL=${{Postgres.DATABASE_URL}}
+```
+
+Use `DATABASE_URL` (the private-network URL) rather than `DATABASE_PUBLIC_URL`: it stays inside
+Railway, is faster, and is not exposed to the internet.
+
+**3. Set the rest of the variables** from the table above. For the site URL, generate a domain
+first (*Settings → Networking → Generate Domain*), then set `NEXT_PUBLIC_SITE_URL` to it —
+`https://…`, no trailing slash. Both `RAZORPAY_KEY_ID` and `NEXT_PUBLIC_RAZORPAY_KEY_ID` get the
+same value.
+
+`NEXT_PUBLIC_*` variables are baked in at build time, so changing one needs a redeploy, not just a
+restart.
+
+**4. Deploy.** Railway installs, runs `npm run build`, then `npx prisma migrate deploy` as the
+pre-deploy step, then starts the server. `prisma` is a runtime dependency precisely so that
+pre-deploy step survives Nixpacks pruning devDependencies.
+
+The health check hits `/api/health`, which round-trips a query to Postgres — a container that
+cannot reach the database fails the check instead of taking traffic.
+
+**5. Seed once.** The seed is a one-off; it is deliberately *not* in the deploy pipeline. From a
+local clone:
+
+```bash
+railway link                    # pick the project and the app service
+railway run npm run db:seed
+```
+
+`railway run` injects the deployed environment into a local process, so this writes to the Railway
+database using your local `tsx`. Re-running is safe: everything is upserted, and cohort dates are
+frozen once a cohort has a confirmed enrolment.
+
+After seeding, manage everything from `/admin` — you should not need the seed again.
+
+**6. Point Razorpay at the deployment.** Webhook URL `https://<your-domain>/api/webhooks/razorpay`,
+events `payment.captured` and `payment.failed`, secret matching `RAZORPAY_WEBHOOK_SECRET`.
+
+### Notes for Railway specifically
+
+- The app binds `0.0.0.0` and honours `$PORT`. Do not set `PORT` yourself — Railway injects it.
+- Railway runs a single instance by default, which is what the in-process rate limiter assumes. If
+  you scale to more than one replica, move `src/lib/rate-limit.ts` to Redis; until then it is fine.
+- Free-tier Postgres volumes are small but this schema is tiny — text and timestamps, no blobs.
+  The PDFs ship in the image under `public/downloads`, not in the database.
+- Deploys restart the process, which clears rate-limit counters and in-memory state. Nothing
+  important lives in memory: holds, bookings and payments are all in Postgres.
+
+### Deploying anywhere else
+
+Any host that runs Next.js 15 against Postgres. The moving parts are: set the environment
+variables, build with `npm run build`, run `npx prisma migrate deploy` before releasing, seed once,
+and point the Razorpay webhook at the deployed URL.
 
 ## Layout
 
