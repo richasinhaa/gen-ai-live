@@ -1,7 +1,21 @@
-/// Seeds the catalogue, one upcoming cohort per track, the weekend consultation
-/// grid, and the downloadable material.
+/// Seeds the catalogue, the weekend consultation grid, and the downloadable
+/// material — and, on a genuinely empty database, one starting cohort per
+/// track.
 ///
-/// Safe to re-run: everything is upserted on a stable key.
+/// This runs on every deploy, so it is built to be boring the second time:
+///
+///   - Programmes and resources are upserted on a stable key, so the catalogue
+///     self-heals if a row is ever lost.
+///   - Availability is topped up to four weekends out. Slots are unique on
+///     their start instant, so this only ever fills gaps — a deploy quietly
+///     keeps the booking grid stocked.
+///   - Cohorts are created ONLY when a programme has none at all. Once one
+///     exists, the seed does not touch cohorts or their sessions again: dates
+///     are the instructor's to move from /admin, and people have those sessions
+///     in their calendars.
+///
+/// The consequence worth stating: this will not invent a new cohort every 45
+/// days for you. That is a scheduling decision, made in the console.
 
 import { PrismaClient, ProgramKind, CohortStatus, ResourceAudience } from "@prisma/client";
 import { generateWeekendSlots, SLOT_DURATION_MIN, istParts } from "../src/lib/slots";
@@ -30,16 +44,11 @@ function cohortCode(prefix: string, startsOn: Date): string {
   return `${prefix}-${p.year}-${String(p.month).padStart(2, "0")}`;
 }
 
-/// Re-running the seed refreshes the demo schedule — but only while nobody has
-/// paid. Once a cohort has a confirmed enrolment its dates are frozen here:
-/// people have put those sessions in their calendars, and a schedule change is
-/// something you make from the admin screen so they get told.
-async function isScheduleLocked(code: string): Promise<boolean> {
-  const cohort = await prisma.cohort.findUnique({
-    where: { code },
-    select: { _count: { select: { enrollments: { where: { status: "CONFIRMED" } } } } },
-  });
-  return (cohort?._count.enrollments ?? 0) > 0;
+/// True when a programme already has at least one cohort, in any state. The
+/// seed then leaves that programme's schedule entirely alone — it exists to
+/// bootstrap an empty database, not to manage a running business.
+async function hasCohorts(programId: string): Promise<boolean> {
+  return (await prisma.cohort.count({ where: { programId } })) > 0;
 }
 
 async function main() {
@@ -47,7 +56,7 @@ async function main() {
   // Programmes
   // -------------------------------------------------------------------------
 
-  const consultation = await prisma.program.upsert({
+  await prisma.program.upsert({
     where: { slug: "consultation" },
     update: {},
     create: {
@@ -176,41 +185,36 @@ async function main() {
     },
   ];
 
-  const researchLocked = await isScheduleLocked(cohortCode("RAG", researchStart));
-  const researchCohort = await prisma.cohort.upsert({
-    where: { code: cohortCode("RAG", researchStart) },
-    update: researchLocked ? {} : { startsOn: researchStart, endsOn: addDays(researchStart, 28) },
-    create: {
-      programId: research.id,
-      code: cohortCode("RAG", researchStart),
-      startsOn: researchStart,
-      endsOn: addDays(researchStart, 28),
-      seats: research.seatsDefault,
-      status: CohortStatus.OPEN,
-      meetingNotes: "Sessions run on Google Meet. The link is the same every week.",
-    },
-  });
+  if (await hasCohorts(research.id)) {
+    console.log("Research track already has cohorts — leaving its schedule alone.");
+  } else {
+    const researchCohort = await prisma.cohort.create({
+      data: {
+        programId: research.id,
+        code: cohortCode("RAG", researchStart),
+        startsOn: researchStart,
+        endsOn: addDays(researchStart, 28),
+        seats: research.seatsDefault,
+        status: CohortStatus.OPEN,
+        meetingNotes: "Sessions run on Google Meet. The link is the same every week.",
+      },
+    });
 
-  for (const [index, session] of researchSessions.entries()) {
-    // One session per weekend, alternating Saturday/Sunday is avoided — keep it
-    // on the same weekday so the calendar stays predictable.
-    const startsAt = addDays(researchStart, index * 7);
-    await prisma.cohortSession.upsert({
-      where: { cohortId_sequence: { cohortId: researchCohort.id, sequence: index + 1 } },
-      update: researchLocked
-        ? { title: session.title, summary: session.summary }
-        : { title: session.title, summary: session.summary, startsAt },
-      create: {
+    await prisma.cohortSession.createMany({
+      // One session per weekend, on the same weekday each time so the calendar
+      // stays predictable.
+      data: researchSessions.map((session, index) => ({
         cohortId: researchCohort.id,
         sequence: index + 1,
         title: session.title,
         summary: session.summary,
-        startsAt,
+        startsAt: addDays(researchStart, index * 7),
         durationMin: 120,
         readingTitle: session.readingTitle,
         readingUrl: session.readingUrl,
-      },
+      })),
     });
+    console.log(`Created starting cohort ${researchCohort.code}.`);
   }
 
   // -------------------------------------------------------------------------
@@ -234,39 +238,33 @@ async function main() {
     ["Capstone: ship one workflow", "You present the AI-assisted workflow you built during the batch and get live critique."],
   ] as const;
 
-  const ecoLocked = await isScheduleLocked(cohortCode("ECO", ecoStart));
-  const ecoCohort = await prisma.cohort.upsert({
-    where: { code: cohortCode("ECO", ecoStart) },
-    update: ecoLocked ? {} : { startsOn: ecoStart, endsOn: addDays(ecoStart, 63) },
-    create: {
-      programId: ecosystem.id,
-      code: cohortCode("ECO", ecoStart),
-      startsOn: ecoStart,
-      endsOn: addDays(ecoStart, 63),
-      seats: ecosystem.seatsDefault,
-      status: CohortStatus.OPEN,
-      meetingNotes: "Sessions run on Zoom. Recordings are posted within 24 hours.",
-    },
-  });
+  if (await hasCohorts(ecosystem.id)) {
+    console.log("Ecosystem track already has batches — leaving its schedule alone.");
+  } else {
+    const ecoCohort = await prisma.cohort.create({
+      data: {
+        programId: ecosystem.id,
+        code: cohortCode("ECO", ecoStart),
+        startsOn: ecoStart,
+        endsOn: addDays(ecoStart, 63),
+        seats: ecosystem.seatsDefault,
+        status: CohortStatus.OPEN,
+        meetingNotes: "Sessions run on Zoom. Recordings are posted within 24 hours.",
+      },
+    });
 
-  for (const [index, [title, summary]] of ecoSessions.entries()) {
-    // Two sessions a weekend (Saturday and Sunday) across five weekends.
-    // Two sessions a weekend — Saturday then Sunday — across five weekends.
-    const weekend = Math.floor(index / 2);
-    const dayOffset = index % 2;
-    const startsAt = addDays(ecoStart, weekend * 7 + dayOffset);
-    await prisma.cohortSession.upsert({
-      where: { cohortId_sequence: { cohortId: ecoCohort.id, sequence: index + 1 } },
-      update: ecoLocked ? { title, summary } : { title, summary, startsAt },
-      create: {
+    await prisma.cohortSession.createMany({
+      // Two sessions a weekend — Saturday then Sunday — across five weekends.
+      data: ecoSessions.map(([title, summary], index) => ({
         cohortId: ecoCohort.id,
         sequence: index + 1,
         title,
         summary,
-        startsAt,
+        startsAt: addDays(ecoStart, Math.floor(index / 2) * 7 + (index % 2)),
         durationMin: 90,
-      },
+      })),
     });
+    console.log(`Created starting batch ${ecoCohort.code}.`);
   }
 
   // -------------------------------------------------------------------------
@@ -277,14 +275,16 @@ async function main() {
   // evening (see DEFAULT_SLOT_TIMES).
   // -------------------------------------------------------------------------
 
-  const slots = generateWeekendSlots({ weeks: 4 });
-  for (const startsAt of slots) {
-    await prisma.availabilitySlot.upsert({
-      where: { startsAt },
-      update: {},
-      create: { startsAt, durationMin: SLOT_DURATION_MIN },
-    });
-  }
+  // createMany + skipDuplicates rather than a loop of upserts: this runs on
+  // every deploy and only the gaps are new, so one statement beats ~50.
+  const added = await prisma.availabilitySlot.createMany({
+    data: generateWeekendSlots({ weeks: 4 }).map((startsAt) => ({
+      startsAt,
+      durationMin: SLOT_DURATION_MIN,
+    })),
+    skipDuplicates: true,
+  });
+  if (added.count > 0) console.log(`Topped up availability with ${added.count} new slot(s).`);
 
   // -------------------------------------------------------------------------
   // Downloads
@@ -349,12 +349,14 @@ async function main() {
     });
   }
 
+  const openSlots = await prisma.availabilitySlot.count({
+    where: { status: "OPEN", startsAt: { gte: new Date() } },
+  });
   console.log(
-    `Seeded ${await prisma.program.count()} programmes, ${await prisma.cohort.count()} cohorts, ` +
-      `${await prisma.cohortSession.count()} sessions, ${await prisma.availabilitySlot.count()} slots, ` +
-      `${await prisma.resource.count()} resources.`,
+    `Catalogue: ${await prisma.program.count()} programmes, ${await prisma.cohort.count()} cohorts, ` +
+      `${await prisma.cohortSession.count()} sessions, ${await prisma.resource.count()} resources, ` +
+      `${openSlots} open consultation slots.`,
   );
-  console.log(`Consultation programme id: ${consultation.id}`);
 }
 
 main()
