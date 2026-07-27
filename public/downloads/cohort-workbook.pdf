@@ -1,0 +1,146 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 2760 >>
+stream
+BT
+/F2 22 Tf
+1 0 0 1 64.00 740.85 Tm
+(Cohort workbook) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 701.67 Tm
+(Applied Gen AI Research: RAG & Agent Development) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 677.92 Tm
+(This workbook accompanies the live sessions. Each block lists what to have ready before the) Tj
+1 0 0 1 64.00 662.17 Tm
+(session and what to complete after it. The starter repository and sample corpus are linked from your) Tj
+1 0 0 1 64.00 646.42 Tm
+(confirmation page.) Tj
+/F1 9 Tf
+1 0 0 1 64.00 620.42 Tm
+(_____________________________________________________________________________________________) Tj
+/F2 14 Tf
+1 0 0 1 64.00 573.94 Tm
+(Before session 1) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 554.72 Tm
+(-  Python 3.11 or newer, with a virtual environment you can install into.) Tj
+1 0 0 1 64.00 536.49 Tm
+(-  An API key for at least one model provider.) Tj
+1 0 0 1 64.00 518.26 Tm
+(-  Clone the starter repository and run the smoke test - it should print a model response.) Tj
+1 0 0 1 64.00 500.04 Tm
+(-  Skim Lewis et al. \(2020\). Do not study it; we read it together.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 458.56 Tm
+(After session 1 - Index something you care about) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 439.33 Tm
+(-  Point the indexer at a corpus of your own: your docs, a wiki export, a set of PDFs.) Tj
+1 0 0 1 64.00 421.11 Tm
+(-  Write ten questions a colleague might genuinely ask of it.) Tj
+1 0 0 1 64.00 402.88 Tm
+(-  Run them. Bring the three worst answers to session 2, with the retrieved passages.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 361.40 Tm
+(After session 2 - Rebuild the pipeline) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 342.18 Tm
+(-  Swap the chunking strategy and measure the difference rather than guessing at it.) Tj
+1 0 0 1 64.00 323.95 Tm
+(-  Add sparse retrieval alongside dense; compare on your own ten questions.) Tj
+1 0 0 1 64.00 305.73 Tm
+(-  Add a reranker. Record the latency cost as well as the quality change.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 264.25 Tm
+(After session 3 - Build the harness) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 245.02 Tm
+(-  Turn your ten questions into a scored test set with known-correct passages.) Tj
+1 0 0 1 64.00 226.80 Tm
+(-  Add at least three questions the corpus cannot answer.) Tj
+1 0 0 1 64.00 208.57 Tm
+(-  Get the harness running from one command. You will use it for the rest of the cohort.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 167.09 Tm
+(After session 4 - Wrap it in an agent) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 147.87 Tm
+(-  Expose your retrieval pipeline as a tool with a clear schema.) Tj
+1 0 0 1 64.00 129.64 Tm
+(-  Implement the loop with an explicit step budget and a termination condition.) Tj
+1 0 0 1 64.00 111.42 Tm
+(-  Log every tool call and its result. Bring a trace where the agent went wrong.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 69.94 Tm
+(After session 5 - Harden it) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 960 >>
+stream
+BT
+/F1 10.5 Tf
+1 0 0 1 64.00 762.66 Tm
+(-  Add memory. Justify to yourself what you persist and what you recompute.) Tj
+1 0 0 1 64.00 744.44 Tm
+(-  Add graceful degradation for a failing tool.) Tj
+1 0 0 1 64.00 726.21 Tm
+(-  Run the harness once more and write down what improved and what regressed.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 684.73 Tm
+(Office hours) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 664.98 Tm
+(Bring code, a trace, or a specific question. 'It is not working' is hard to help with; a failing query with) Tj
+1 0 0 1 64.00 649.23 Tm
+(its retrieved passages takes about four minutes to diagnose.) Tj
+/F1 9 Tf
+1 0 0 1 64.00 623.23 Tm
+(_____________________________________________________________________________________________) Tj
+1 0 0 1 64.00 601.73 Tm
+(Gen AI Live - live, small-group generative AI training. Sessions run on Google Meet or Zoom; booking, intake and) Tj
+1 0 0 1 64.00 588.23 Tm
+(material live at the website. Questions: hello@genailive.in) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Title (Cohort workbook) /Author (Gen AI Live) /Producer (Gen AI Live) >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000320 00000 n 
+0000003132 00000 n 
+0000003274 00000 n 
+0000004285 00000 n 
+0000004427 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R /Info 9 0 R >>
+startxref
+4519
+%%EOF

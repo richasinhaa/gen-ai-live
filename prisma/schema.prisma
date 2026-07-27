@@ -1,0 +1,372 @@
+// Gen AI Live — data model
+//
+// Sessions are delivered on Google Meet or Zoom, but every step that surrounds
+// them (discovery, intake, payment, scheduling, materials, attendance) lives
+// here. Meeting links are stored per session/cohort and only revealed to people
+// whose payment has been confirmed.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum ProgramKind {
+  CONSULTATION // 30-minute one-on-one
+  COHORT // High-technical research cohort, new every 45 days
+  BATCH // Step-up ecosystem batch, new every 30 days
+}
+
+enum MeetingProvider {
+  GOOGLE_MEET
+  ZOOM
+}
+
+enum CohortStatus {
+  DRAFT // not visible on the site
+  OPEN // accepting enrolments
+  FULL // seats exhausted, waitlist only
+  RUNNING // started, closed to new enrolments
+  COMPLETED
+  CANCELLED
+}
+
+enum SlotStatus {
+  OPEN
+  HELD // reserved while a payment is in flight
+  BOOKED
+  BLOCKED // instructor blocked it off
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  REFUNDED
+}
+
+enum EnrollmentStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  WAITLISTED
+  CANCELLED
+  COMPLETED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  CREATED
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentPurpose {
+  CONSULTATION
+  ENROLLMENT
+}
+
+enum ResourceAudience {
+  PUBLIC // downloadable by anyone (brochures, syllabi)
+  CONSULTATION // unlocked after a confirmed consultation booking
+  ENROLLED // unlocked for confirmed enrolments in the linked program
+}
+
+// ---------------------------------------------------------------------------
+// People
+// ---------------------------------------------------------------------------
+
+/// One row per human. Created on first intake and reused across bookings and
+/// enrolments, keyed on a normalised (lowercased, trimmed) email.
+model Person {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  fullName  String
+  phone     String?
+  city      String?
+  country   String   @default("India")
+  linkedin  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Profile captured at intake — drives how a consultation is tailored.
+  role           String? // e.g. "Backend engineer", "Product manager"
+  organisation   String?
+  experienceYear Int? // years of professional experience
+  codingComfort  String? // NONE | BASIC | COMFORTABLE | ADVANCED
+  aiExposure     String? // NONE | PROMPTING | BUILT_PROTOTYPES | IN_PRODUCTION
+  goal           String? // free text: what they want out of this
+  referredBy     String? // instagram | linkedin | referral | search | other
+
+  bookings    ConsultationBooking[]
+  enrollments Enrollment[]
+  payments    Payment[]
+  downloads   DownloadEvent[]
+
+  @@index([createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue
+// ---------------------------------------------------------------------------
+
+/// A sellable offering. Prices are stored in paise to avoid float rounding.
+model Program {
+  id            String      @id @default(cuid())
+  slug          String      @unique
+  kind          ProgramKind
+  title         String
+  tagline       String
+  description   String
+  /// Price actually charged, in paise. 49900 = Rs. 499.
+  priceInPaise  Int
+  /// Struck-through "actual" price, in paise. Null when there is no discount.
+  listInPaise   Int?
+  /// Total live hours. Null for the consultation (measured in minutes).
+  liveHours     Int?
+  durationMin   Int? // for the consultation: 30
+  /// How often a new cohort/batch starts, in days. 45 or 30.
+  cadenceDays   Int?
+  seatsDefault  Int         @default(20)
+  isActive      Boolean     @default(true)
+  sortOrder     Int         @default(0)
+  outcomes      String[] // bullet points rendered on the programme page
+  prerequisites String[]
+
+  cohorts   Cohort[]
+  resources Resource[]
+
+  @@index([isActive, sortOrder])
+}
+
+/// A dated run of a Program — a "cohort" for the research track, a "batch" for
+/// the ecosystem track. Same shape, different cadence.
+model Cohort {
+  id        String       @id @default(cuid())
+  programId String
+  program   Program      @relation(fields: [programId], references: [id], onDelete: Cascade)
+  /// Human-facing code, e.g. "RAG-2026-03" or "ECO-2026-02".
+  code      String       @unique
+  startsOn  DateTime
+  endsOn    DateTime
+  timezone  String       @default("Asia/Kolkata")
+  seats     Int
+  status    CohortStatus @default(DRAFT)
+
+  meetingProvider MeetingProvider @default(GOOGLE_MEET)
+  /// Recurring room for the whole cohort. Revealed only to confirmed learners.
+  meetingUrl      String?
+  meetingNotes    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions    CohortSession[]
+  enrollments Enrollment[]
+
+  @@index([programId, status, startsOn])
+}
+
+/// One live class inside a cohort.
+model CohortSession {
+  id          String   @id @default(cuid())
+  cohortId    String
+  cohort      Cohort   @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  sequence    Int
+  title       String
+  summary     String?
+  startsAt    DateTime
+  durationMin Int      @default(120)
+  /// Overrides the cohort room when a single session runs elsewhere.
+  meetingUrl  String?
+  recordingUrl String?
+  /// Paper / reading attached to this session, if any.
+  readingUrl  String?
+  readingTitle String?
+
+  @@unique([cohortId, sequence])
+  @@index([startsAt])
+}
+
+// ---------------------------------------------------------------------------
+// Consultations
+// ---------------------------------------------------------------------------
+
+/// Instructor availability. Generated in weekend blocks; each slot holds one
+/// one-on-one consultation.
+model AvailabilitySlot {
+  id              String          @id @default(cuid())
+  startsAt        DateTime        @unique
+  durationMin     Int             @default(30)
+  status          SlotStatus      @default(OPEN)
+  meetingProvider MeetingProvider @default(GOOGLE_MEET)
+  /// Personal room for this slot. Revealed after payment is confirmed.
+  meetingUrl      String?
+  /// Set while a checkout is in flight so two people cannot take one slot.
+  heldUntil       DateTime?
+  createdAt       DateTime        @default(now())
+
+  /// A slot can accumulate several bookings over its life: an abandoned or
+  /// failed checkout is cancelled and the slot returns to the pool for someone
+  /// else. `status` is the concurrency guard, not a unique constraint here.
+  bookings ConsultationBooking[]
+
+  @@index([status, startsAt])
+}
+
+model ConsultationBooking {
+  id       String            @id @default(cuid())
+  /// Short human-readable reference shown on the confirmation page.
+  reference String           @unique
+  personId String
+  person   Person            @relation(fields: [personId], references: [id], onDelete: Cascade)
+  slotId   String
+  slot     AvailabilitySlot  @relation(fields: [slotId], references: [id])
+  status   BookingStatus     @default(PENDING_PAYMENT)
+
+  /// Snapshot of what they told us at intake, so later profile edits do not
+  /// rewrite the brief the instructor prepared from.
+  intakeNotes String?
+  amountPaise Int
+
+  attended     Boolean   @default(false)
+  instructorNotes String?
+  cancelledAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  payments Payment[]
+
+  @@index([slotId, status])
+  @@index([status, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Enrolments
+// ---------------------------------------------------------------------------
+
+model Enrollment {
+  id        String           @id @default(cuid())
+  reference String           @unique
+  personId  String
+  person    Person           @relation(fields: [personId], references: [id], onDelete: Cascade)
+  cohortId  String
+  cohort    Cohort           @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  status    EnrollmentStatus @default(PENDING_PAYMENT)
+
+  amountPaise Int
+  intakeNotes String?
+
+  cancelledAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  payments Payment[]
+
+  @@unique([personId, cohortId])
+  @@index([status, createdAt])
+}
+
+// ---------------------------------------------------------------------------
+// Payments
+// ---------------------------------------------------------------------------
+
+model Payment {
+  id       String         @id @default(cuid())
+  personId String
+  person   Person         @relation(fields: [personId], references: [id], onDelete: Cascade)
+  purpose  PaymentPurpose
+  status   PaymentStatus  @default(CREATED)
+
+  amountPaise Int
+  currency    String @default("INR")
+
+  razorpayOrderId   String  @unique
+  razorpayPaymentId String? @unique
+  razorpaySignature String?
+  /// Verbatim webhook/checkout payload for reconciliation and disputes.
+  rawPayload        Json?
+  failureReason     String?
+
+  bookingId String?
+  booking   ConsultationBooking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  enrollmentId String?
+  enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id], onDelete: SetNull)
+
+  paidAt     DateTime?
+  refundedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([status, createdAt])
+}
+
+/// Idempotency guard: Razorpay retries webhooks, and we must not confirm the
+/// same payment twice.
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  event       String
+  payload     Json
+  processedAt DateTime @default(now())
+
+  @@index([event, processedAt])
+}
+
+// ---------------------------------------------------------------------------
+// Downloads
+// ---------------------------------------------------------------------------
+
+model Resource {
+  id          String           @id @default(cuid())
+  slug        String           @unique
+  title       String
+  description String?
+  /// Where the file actually lives (object storage, Drive, or /public).
+  fileUrl     String
+  fileType    String           @default("pdf")
+  sizeLabel   String?
+  audience    ResourceAudience @default(PUBLIC)
+  programId   String?
+  program     Program?         @relation(fields: [programId], references: [id], onDelete: SetNull)
+  isActive    Boolean          @default(true)
+  sortOrder   Int              @default(0)
+  createdAt   DateTime         @default(now())
+
+  downloads DownloadEvent[]
+
+  @@index([audience, isActive, sortOrder])
+}
+
+/// Every gated download is logged — doubles as the lead list for follow-up.
+model DownloadEvent {
+  id         String   @id @default(cuid())
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  personId   String?
+  person     Person?  @relation(fields: [personId], references: [id], onDelete: SetNull)
+  email      String?
+  ipHash     String?
+  createdAt  DateTime @default(now())
+
+  @@index([resourceId, createdAt])
+}
+
+/// Newsletter / "notify me when the next cohort opens" captures.
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  interest  String? // program slug they were looking at
+  source    String? // instagram | linkedin | website
+  createdAt DateTime @default(now())
+}

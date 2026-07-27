@@ -1,0 +1,144 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 3031 >>
+stream
+BT
+/F2 22 Tf
+1 0 0 1 64.00 740.85 Tm
+(RAG evaluation checklist) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 721.10 Tm
+(The checks worth running before a retrieval system goes in front of users. Not exhaustive - ordered) Tj
+1 0 0 1 64.00 705.35 Tm
+(by how often skipping one has caused a visible failure.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 660.87 Tm
+(1. Before you measure anything) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 641.64 Tm
+([ ]  Do you have a test set of real questions, written by someone who is not you?) Tj
+1 0 0 1 64.00 623.42 Tm
+([ ]  Does it include questions the corpus genuinely cannot answer? If not, you cannot measure) Tj
+1 0 0 1 78.00 608.19 Tm
+(refusal.) Tj
+1 0 0 1 64.00 589.97 Tm
+([ ]  Is there a known-correct passage for each question, so retrieval can be scored separately from) Tj
+1 0 0 1 78.00 574.74 Tm
+(generation?) Tj
+/F2 14 Tf
+1 0 0 1 64.00 533.26 Tm
+(2. Retrieval) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 514.04 Tm
+([ ]  Recall@k on your test set, at the k you actually pass to the model.) Tj
+1 0 0 1 64.00 495.81 Tm
+([ ]  What fraction of queries retrieve zero relevant passages? That number is your ceiling.) Tj
+1 0 0 1 64.00 477.59 Tm
+([ ]  Does hybrid search beat dense alone on your data? Check rather than assume.) Tj
+1 0 0 1 64.00 459.36 Tm
+([ ]  Are chunk boundaries splitting tables, code blocks or numbered lists mid-structure?) Tj
+1 0 0 1 64.00 441.14 Tm
+([ ]  Does reranking change the top-k enough to justify the latency?) Tj
+/F2 14 Tf
+1 0 0 1 64.00 399.66 Tm
+(3. Generation) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 380.43 Tm
+([ ]  Is every factual claim traceable to a retrieved passage?) Tj
+1 0 0 1 64.00 362.21 Tm
+([ ]  When retrieval returns nothing useful, does the system say so - or invent an answer?) Tj
+1 0 0 1 64.00 343.98 Tm
+([ ]  Does answer quality collapse when the relevant passage sits in the middle of a long context?) Tj
+1 0 0 1 64.00 325.76 Tm
+([ ]  Are citations pointing at the passage that actually supports the sentence, or just at something) Tj
+1 0 0 1 78.00 310.53 Tm
+(nearby?) Tj
+/F2 14 Tf
+1 0 0 1 64.00 269.05 Tm
+(4. The seams) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 249.83 Tm
+([ ]  What happens on a question spanning two documents that contradict each other?) Tj
+1 0 0 1 64.00 231.60 Tm
+([ ]  What happens when the corpus is updated but the index is not?) Tj
+1 0 0 1 64.00 213.38 Tm
+([ ]  Is there a permission boundary in the corpus? If so, is it enforced at retrieval - not in the prompt?) Tj
+1 0 0 1 64.00 195.15 Tm
+([ ]  What does a malicious question retrieve? Try to get it to surface something it should not.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 153.67 Tm
+(5. Operations) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 134.45 Tm
+([ ]  Cost per query at expected volume, including reranking and any repeated calls.) Tj
+1 0 0 1 64.00 116.22 Tm
+([ ]  p95 latency, measured end to end rather than per component.) Tj
+1 0 0 1 64.00 98.00 Tm
+([ ]  Are queries and retrieved passages logged so a bad answer can be reconstructed later?) Tj
+1 0 0 1 64.00 79.77 Tm
+([ ]  Is there a regression suite that runs before each index or prompt change?) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 824 >>
+stream
+BT
+/F2 14 Tf
+1 0 0 1 64.00 759.41 Tm
+(The one that catches most people) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 739.66 Tm
+(Eyeballing twenty answers and concluding it works. Twenty is enough to see that it is not broken; it) Tj
+1 0 0 1 64.00 723.91 Tm
+(is nowhere near enough to see the shape of what it gets wrong. Build the test set first - it is a day of) Tj
+1 0 0 1 64.00 708.16 Tm
+(work and it is the difference between improving the system and guessing at it.) Tj
+/F1 9 Tf
+1 0 0 1 64.00 682.16 Tm
+(_____________________________________________________________________________________________) Tj
+1 0 0 1 64.00 660.66 Tm
+(Gen AI Live - live, small-group generative AI training. Sessions run on Google Meet or Zoom; booking, intake and) Tj
+1 0 0 1 64.00 647.16 Tm
+(material live at the website. Questions: hello@genailive.in) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Title (RAG evaluation checklist) /Author (Gen AI Live) /Producer (Gen AI Live) >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000320 00000 n 
+0000003403 00000 n 
+0000003545 00000 n 
+0000004420 00000 n 
+0000004562 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R /Info 9 0 R >>
+startxref
+4663
+%%EOF

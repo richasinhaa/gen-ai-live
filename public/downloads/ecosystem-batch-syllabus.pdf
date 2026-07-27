@@ -1,0 +1,192 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 2669 >>
+stream
+BT
+/F2 22 Tf
+1 0 0 1 64.00 740.85 Tm
+(Step Up to the Gen AI Ecosystem) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 701.67 Tm
+(Full syllabus) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 676.45 Tm
+(Format: Live, 10 sessions x 1.5 hours = 15 hours) Tj
+1 0 0 1 64.00 661.22 Tm
+(Cadence: A new batch starts every 30 days) Tj
+1 0 0 1 64.00 646.00 Tm
+(Seats: 25 maximum) Tj
+1 0 0 1 64.00 630.77 Tm
+(Level: Low on jargon - no coding background required) Tj
+1 0 0 1 64.00 615.54 Tm
+(Price: Rs. 14,999 \(list Rs. 30,000\)) Tj
+/F1 9 Tf
+1 0 0 1 64.00 595.54 Tm
+(_____________________________________________________________________________________________) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 571.79 Tm
+(This batch is for professionals who need real command of generative AI without a computer science) Tj
+1 0 0 1 64.00 556.04 Tm
+(background: people who have to decide what to build, judge whether it works, and answer for it) Tj
+1 0 0 1 64.00 540.29 Tm
+(afterwards. Light on maths, heavy on judgement and hands-on practice. You bring a real problem) Tj
+1 0 0 1 64.00 524.54 Tm
+(from your work and build against it throughout.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 480.06 Tm
+(Who this is for) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 460.84 Tm
+(-  Managers and leads who have to scope AI work and review its output.) Tj
+1 0 0 1 64.00 442.61 Tm
+(-  Analysts, writers, operations and product people who want to build their own workflows.) Tj
+1 0 0 1 64.00 424.39 Tm
+(-  Anyone who can use ChatGPT or Claude but cannot yet tell when it is quietly wrong.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 382.91 Tm
+(Session by session) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 343.73 Tm
+(Session 1 - What a generative model actually does) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 323.98 Tm
+(A working mental model of prediction, context and sampling, without the maths. Why the same) Tj
+1 0 0 1 64.00 308.23 Tm
+(prompt gives different answers, and why that is not a bug.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 267.05 Tm
+(Session 2 - The landscape, honestly) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 247.30 Tm
+(Which models exist, what they cost, where each is genuinely better. How to choose without chasing) Tj
+1 0 0 1 64.00 231.55 Tm
+(leaderboards.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 190.37 Tm
+(Session 3 - Prompting that survives contact with reality) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 170.62 Tm
+(Moving from a prompt that worked once to one that holds across a hundred inputs. Structure,) Tj
+1 0 0 1 64.00 154.87 Tm
+(examples, constraints, and how to test.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 113.69 Tm
+(Session 4 - Getting structured output) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 93.94 Tm
+(Making a model return data your spreadsheet or system can consume - and validating it before you) Tj
+1 0 0 1 64.00 78.19 Tm
+(trust it.) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 2431 >>
+stream
+BT
+/F2 11.5 Tf
+1 0 0 1 64.00 762.71 Tm
+(Session 5 - Your own documents: retrieval, conceptually) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 742.96 Tm
+(What RAG is, what it fixes, what it does not. Enough to scope the work and judge whether a) Tj
+1 0 0 1 64.00 727.21 Tm
+(vendor's version is any good.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 686.03 Tm
+(Session 6 - Agents and automation) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 666.28 Tm
+(What 'agent' means once you strip the marketing. Where automation pays off and where it quietly) Tj
+1 0 0 1 64.00 650.53 Tm
+(costs you more than it saves.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 609.35 Tm
+(Session 7 - A gentle first API call) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 589.60 Tm
+(Enough hands-on to understand what your engineers are doing. Copy-paste friendly; no prior coding) Tj
+1 0 0 1 64.00 573.85 Tm
+(assumed.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 532.67 Tm
+(Session 8 - Quality, hallucination and guardrails) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 512.92 Tm
+(How to test AI output the way you would review a new hire's work, and how to make that review) Tj
+1 0 0 1 64.00 497.17 Tm
+(scale.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 455.99 Tm
+(Session 9 - Cost, privacy, security and governance) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 436.24 Tm
+(What leaves your building, what it costs at volume, and the policy questions to settle before you roll) Tj
+1 0 0 1 64.00 420.49 Tm
+(anything out.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 379.31 Tm
+(Session 10 - Capstone: ship one workflow) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 359.56 Tm
+(You present the AI-assisted workflow you built during the batch and get live critique from the room) Tj
+1 0 0 1 64.00 343.81 Tm
+(and the instructor.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 299.33 Tm
+(The capstone) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 279.58 Tm
+(From session three onwards you work on one real workflow from your own job - a report you) Tj
+1 0 0 1 64.00 263.83 Tm
+(produce, a queue you triage, a document set you search. Each session adds a piece. In session ten) Tj
+1 0 0 1 64.00 248.08 Tm
+(you demonstrate it working and explain where you would not trust it. That last part is the point.) Tj
+/F1 9 Tf
+1 0 0 1 64.00 222.08 Tm
+(_____________________________________________________________________________________________) Tj
+1 0 0 1 64.00 200.58 Tm
+(Gen AI Live - live, small-group generative AI training. Sessions run on Google Meet or Zoom; booking, intake and) Tj
+1 0 0 1 64.00 187.08 Tm
+(material live at the website. Questions: hello@genailive.in) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Title (Step Up to the Gen AI Ecosystem) /Author (Gen AI Live) /Producer (Gen AI Live) >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000320 00000 n 
+0000003041 00000 n 
+0000003183 00000 n 
+0000005666 00000 n 
+0000005808 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R /Info 9 0 R >>
+startxref
+5916
+%%EOF

@@ -1,0 +1,233 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 3 /Kids [6 0 R 8 0 R 10 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 2852 >>
+stream
+BT
+/F2 22 Tf
+1 0 0 1 64.00 740.85 Tm
+(Applied Gen AI Research) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 701.67 Tm
+(RAG & Agent Development - full syllabus) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 676.45 Tm
+(Format: Live, 5 sessions x 2 hours = 10 hours) Tj
+1 0 0 1 64.00 661.22 Tm
+(Cadence: A new cohort starts every 45 days) Tj
+1 0 0 1 64.00 646.00 Tm
+(Seats: 16 maximum) Tj
+1 0 0 1 64.00 630.77 Tm
+(Level: Highly technical - you write code during the sessions) Tj
+1 0 0 1 64.00 615.54 Tm
+(Price: Rs. 24,999 \(list Rs. 50,000\)) Tj
+/F1 9 Tf
+1 0 0 1 64.00 595.54 Tm
+(_____________________________________________________________________________________________) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 571.79 Tm
+(This cohort is for people who already write code and are tired of tutorials that stop at the first working) Tj
+1 0 0 1 64.00 556.04 Tm
+(demo. We read four foundational papers properly - method, ablations, and what actually replicates -) Tj
+1 0 0 1 64.00 540.29 Tm
+(and build from them. By the end you will have assembled a retrieval pipeline yourself rather than) Tj
+1 0 0 1 64.00 524.54 Tm
+(imported one, and an agent loop you can reason about when it misbehaves.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 480.06 Tm
+(Prerequisites) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 460.84 Tm
+(-  Comfortable writing Python day to day.) Tj
+1 0 0 1 64.00 442.61 Tm
+(-  You have called an LLM API at least once.) Tj
+1 0 0 1 64.00 424.39 Tm
+(-  Basic familiarity with vectors and embeddings helps but is not required.) Tj
+1 0 0 1 64.00 406.16 Tm
+(-  A machine you can run Python on, and an API key for at least one model provider. We will tell) Tj
+1 0 0 1 78.00 390.94 Tm
+(you which before session one.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 349.46 Tm
+(The four papers) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 330.23 Tm
+(-  Lewis et al. \(2020\) - Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.) Tj
+1 0 0 1 78.00 315.01 Tm
+(arXiv:2005.11401) Tj
+1 0 0 1 64.00 296.78 Tm
+(-  Asai et al. \(2023\) - Self-RAG: Learning to Retrieve, Generate and Critique through) Tj
+1 0 0 1 78.00 281.56 Tm
+(Self-Reflection. arXiv:2310.11511) Tj
+1 0 0 1 64.00 263.33 Tm
+(-  Yao et al. \(2022\) - ReAct: Synergizing Reasoning and Acting in Language Models.) Tj
+1 0 0 1 78.00 248.11 Tm
+(arXiv:2210.03629) Tj
+1 0 0 1 64.00 229.88 Tm
+(-  Schick et al. \(2023\) - Toolformer: Language Models Can Teach Themselves to Use Tools.) Tj
+1 0 0 1 78.00 214.66 Tm
+(arXiv:2302.04761) Tj
+/F2 14 Tf
+1 0 0 1 64.00 173.18 Tm
+(Session by session) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 134.00 Tm
+(Session 1 - Retrieval, from first principles) Tj
+/F1 9.5 Tf
+1 0 0 1 64.00 115.75 Tm
+(Paper: Lewis et al. \(2020\)) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 94.52 Tm
+(-  Why parametric knowledge fails, and precisely which failures retrieval fixes.) Tj
+1 0 0 1 64.00 76.30 Tm
+(-  The architecture the original RAG paper proposed, and how far current practice has drifted from) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 3071 >>
+stream
+BT
+/F1 10.5 Tf
+1 0 0 1 78.00 762.66 Tm
+(it.) Tj
+1 0 0 1 64.00 744.44 Tm
+(-  Set up the codebase; index a real corpus; get a naive pipeline answering questions.) Tj
+1 0 0 1 64.00 726.21 Tm
+(-  Between sessions: index a corpus of your own and bring three answers it gets wrong.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 688.03 Tm
+(Session 2 - Building the RAG framework) Tj
+/F1 9.5 Tf
+1 0 0 1 64.00 669.78 Tm
+(Paper: Asai et al. \(2023\)) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 648.56 Tm
+(-  Chunking strategies and what each one costs you at retrieval time.) Tj
+1 0 0 1 64.00 630.33 Tm
+(-  Embedding model choice: when it matters, when it is noise.) Tj
+1 0 0 1 64.00 612.11 Tm
+(-  Hybrid dense and sparse search; why BM25 refuses to die.) Tj
+1 0 0 1 64.00 593.88 Tm
+(-  Reranking, and where it earns its latency.) Tj
+1 0 0 1 64.00 575.66 Tm
+(-  Self-reflection as a retrieval control loop - what Self-RAG adds and what it costs.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 537.48 Tm
+(Session 3 - Evaluation and failure analysis) Tj
+/F1 9.5 Tf
+1 0 0 1 64.00 519.23 Tm
+(Paper: No new paper - we work on your pipelines) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 498.00 Tm
+(-  Retrieval metrics that predict downstream quality, and the ones that do not.) Tj
+1 0 0 1 64.00 479.78 Tm
+(-  Groundedness and citation checking without a human in the loop.) Tj
+1 0 0 1 64.00 461.55 Tm
+(-  Building a regression test set from your own failures.) Tj
+1 0 0 1 64.00 443.33 Tm
+(-  Separating retrieval failures from generation failures - the single most useful diagnostic skill in this) Tj
+1 0 0 1 78.00 428.10 Tm
+(field.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 389.92 Tm
+(Session 4 - Agents: the reasoning-acting loop) Tj
+/F1 9.5 Tf
+1 0 0 1 64.00 371.67 Tm
+(Paper: Yao et al. \(2022\)) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 350.45 Tm
+(-  The ReAct pattern, and what it actually claims.) Tj
+1 0 0 1 64.00 332.22 Tm
+(-  Tool calling: schema design, error surfaces, and what the model does with a failed call.) Tj
+1 0 0 1 64.00 314.00 Tm
+(-  Structuring an agent loop you can debug - state, budget, termination.) Tj
+1 0 0 1 64.00 295.77 Tm
+(-  Convert your RAG pipeline into a tool the agent calls.) Tj
+/F2 11.5 Tf
+1 0 0 1 64.00 257.59 Tm
+(Session 5 - Tool use, memory and production hardening) Tj
+/F1 9.5 Tf
+1 0 0 1 64.00 239.34 Tm
+(Paper: Schick et al. \(2023\)) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 218.12 Tm
+(-  Self-supervised tool learning and what it implies for how you design tools.) Tj
+1 0 0 1 64.00 199.89 Tm
+(-  Memory: what to persist, what to recompute, and the cost of getting it wrong.) Tj
+1 0 0 1 64.00 181.67 Tm
+(-  Loop control, budget caps and graceful degradation.) Tj
+1 0 0 1 64.00 163.44 Tm
+(-  The failure modes that only appear under real traffic, and how to instrument for them.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 121.96 Tm
+(What you leave with) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 102.74 Tm
+(-  A retrieval pipeline you built, not a template you cloned.) Tj
+1 0 0 1 64.00 84.51 Tm
+(-  An agent loop with tool calling, memory and failure recovery.) Tj
+1 0 0 1 64.00 66.29 Tm
+(-  An evaluation harness that catches regressions before your users do.) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Length 492 >>
+stream
+BT
+/F1 10.5 Tf
+1 0 0 1 64.00 762.66 Tm
+(-  The ability to read the next paper in this field without waiting for a summary.) Tj
+/F1 9 Tf
+1 0 0 1 64.00 739.66 Tm
+(_____________________________________________________________________________________________) Tj
+1 0 0 1 64.00 718.16 Tm
+(Gen AI Live - live, small-group generative AI training. Sessions run on Google Meet or Zoom; booking, intake and) Tj
+1 0 0 1 64.00 704.66 Tm
+(material live at the website. Questions: hello@genailive.in) Tj
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 9 0 R >>
+endobj
+11 0 obj
+<< /Title (Applied Gen AI Research: RAG & Agent Development) /Author (Gen AI Live) /Producer (Gen AI Live) >>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000128 00000 n 
+0000000225 00000 n 
+0000000327 00000 n 
+0000003231 00000 n 
+0000003373 00000 n 
+0000006496 00000 n 
+0000006638 00000 n 
+0000007181 00000 n 
+0000007324 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R /Info 11 0 R >>
+startxref
+7450
+%%EOF

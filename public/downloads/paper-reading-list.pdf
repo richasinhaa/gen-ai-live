@@ -1,0 +1,143 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 2 /Kids [6 0 R 8 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 2953 >>
+stream
+BT
+/F2 22 Tf
+1 0 0 1 64.00 740.85 Tm
+(Generative AI reading list) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 721.10 Tm
+(The four cohort papers plus the surrounding work, ordered so each one makes the next easier. If) Tj
+1 0 0 1 64.00 705.35 Tm
+(you read only four, read the ones marked [core].) Tj
+/F2 14 Tf
+1 0 0 1 64.00 660.87 Tm
+(Foundations) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 641.64 Tm
+(-  Vaswani et al. \(2017\) - Attention Is All You Need. arXiv:1706.03762. The architecture everything) Tj
+1 0 0 1 78.00 626.42 Tm
+(else assumes.) Tj
+1 0 0 1 64.00 608.19 Tm
+(-  Brown et al. \(2020\) - Language Models are Few-Shot Learners. arXiv:2005.14165. Where) Tj
+1 0 0 1 78.00 592.97 Tm
+(in-context learning enters the picture.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 551.49 Tm
+(Retrieval) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 532.26 Tm
+(-  [core] Lewis et al. \(2020\) - Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.) Tj
+1 0 0 1 78.00 517.04 Tm
+(arXiv:2005.11401.) Tj
+1 0 0 1 64.00 498.81 Tm
+(-  Karpukhin et al. \(2020\) - Dense Passage Retrieval for Open-Domain QA. arXiv:2004.04906. The) Tj
+1 0 0 1 78.00 483.59 Tm
+(retriever half, in detail.) Tj
+1 0 0 1 64.00 465.36 Tm
+(-  [core] Asai et al. \(2023\) - Self-RAG. arXiv:2310.11511. Retrieval as a control decision rather than) Tj
+1 0 0 1 78.00 450.14 Tm
+(a fixed step.) Tj
+1 0 0 1 64.00 431.91 Tm
+(-  Gao et al. \(2023\) - Retrieval-Augmented Generation for Large Language Models: A Survey.) Tj
+1 0 0 1 78.00 416.69 Tm
+(arXiv:2312.10997. Useful map once you know the terrain.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 375.21 Tm
+(Agents and tool use) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 355.98 Tm
+(-  [core] Yao et al. \(2022\) - ReAct. arXiv:2210.03629.) Tj
+1 0 0 1 64.00 337.76 Tm
+(-  [core] Schick et al. \(2023\) - Toolformer. arXiv:2302.04761.) Tj
+1 0 0 1 64.00 319.53 Tm
+(-  Shinn et al. \(2023\) - Reflexion: Language Agents with Verbal Reinforcement Learning.) Tj
+1 0 0 1 78.00 304.31 Tm
+(arXiv:2303.11366.) Tj
+1 0 0 1 64.00 286.08 Tm
+(-  Wei et al. \(2022\) - Chain-of-Thought Prompting. arXiv:2201.11903. Read it for what it does not) Tj
+1 0 0 1 78.00 270.86 Tm
+(claim.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 229.38 Tm
+(Evaluation and failure) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 210.15 Tm
+(-  Es et al. \(2023\) - RAGAS: Automated Evaluation of Retrieval Augmented Generation.) Tj
+1 0 0 1 78.00 194.93 Tm
+(arXiv:2309.15217.) Tj
+1 0 0 1 64.00 176.70 Tm
+(-  Ji et al. \(2022\) - Survey of Hallucination in Natural Language Generation. arXiv:2202.03629.) Tj
+1 0 0 1 64.00 158.48 Tm
+(-  Liu et al. \(2023\) - Lost in the Middle: How Language Models Use Long Contexts.) Tj
+1 0 0 1 78.00 143.25 Tm
+(arXiv:2307.03172.) Tj
+/F2 14 Tf
+1 0 0 1 64.00 101.77 Tm
+(How to read one of these) Tj
+/F1 10.5 Tf
+1 0 0 1 64.00 82.02 Tm
+(Abstract, then figures, then the experimental setup - in that order, before any of the prose. Most of) Tj
+1 0 0 1 64.00 66.27 Tm
+(what you need is in the setup: what they compared against, on what data, and what they held fixed.) Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 590 >>
+stream
+BT
+/F1 10.5 Tf
+1 0 0 1 64.00 762.14 Tm
+(Then read the ablations, which is where the honest limitations usually live. The related-work section) Tj
+1 0 0 1 64.00 746.39 Tm
+(is the last thing worth your time, not the first.) Tj
+/F1 9 Tf
+1 0 0 1 64.00 720.39 Tm
+(_____________________________________________________________________________________________) Tj
+1 0 0 1 64.00 698.89 Tm
+(Gen AI Live - live, small-group generative AI training. Sessions run on Google Meet or Zoom; booking, intake and) Tj
+1 0 0 1 64.00 685.39 Tm
+(material live at the website. Questions: hello@genailive.in) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Title (Generative AI reading list) /Author (Gen AI Live) /Producer (Gen AI Live) >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000121 00000 n 
+0000000218 00000 n 
+0000000320 00000 n 
+0000003325 00000 n 
+0000003467 00000 n 
+0000004108 00000 n 
+0000004250 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R /Info 9 0 R >>
+startxref
+4353
+%%EOF
