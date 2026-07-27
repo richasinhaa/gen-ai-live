@@ -3,6 +3,7 @@ import { CohortStatus } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { formatINR, discountPercent, formatDateIST } from "@/lib/format";
 import { ArrowIcon, CheckIcon, VideoIcon } from "@/components/icons";
+import { FounderCard } from "@/components/founder-card";
 import { PROGRAM_SLUGS, site } from "@/lib/site";
 
 // Prices, seats and cohort dates all change from the admin screen; never serve
@@ -107,6 +108,27 @@ export default async function HomePage() {
       </section>
 
       <HowItWorks />
+
+      <section className="container-page pb-10">
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div>
+            <p className="eyebrow">Who teaches this</p>
+            <h2 className="text-2xl sm:text-3xl font-semibold mt-3">
+              Practitioners, not full-time trainers
+            </h2>
+            <p className="prose-body mt-4">
+              The sessions are run by people who build with this technology. That is why they are
+              live and the groups are small — what you are paying for is the questions you get to
+              ask, not the slides.
+            </p>
+            <Link href="/about" className="btn btn-secondary mt-5">
+              More about how it runs
+              <ArrowIcon className="h-4 w-4" />
+            </Link>
+          </div>
+          <FounderCard />
+        </div>
+      </section>
 
       {consultation && (
         <section className="container-page pb-4">

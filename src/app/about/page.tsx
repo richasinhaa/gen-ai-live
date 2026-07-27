@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { InstagramIcon, LinkedInIcon } from "@/components/icons";
+import { FounderCard } from "@/components/founder-card";
 
 export const metadata: Metadata = {
   title: "About",
@@ -42,6 +43,16 @@ export default function AboutPage() {
           what these systems can be trusted with, how to test their output, what it costs, and
           what leaves your building. No maths, no apologies for that.
         </p>
+      </div>
+
+      <h2 className="text-2xl font-semibold mt-14">Who runs it</h2>
+      <p className="prose-body mt-3">
+        These are taught by people who build with this technology, not by full-time trainers
+        working from someone else&apos;s slides. That is the whole reason the sessions are live and
+        the groups are small — you are paying for the questions you get to ask, not the material.
+      </p>
+      <div className="mt-6">
+        <FounderCard />
       </div>
 
       <h2 className="text-2xl font-semibold mt-14">How a session actually runs</h2>

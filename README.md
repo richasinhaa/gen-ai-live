@@ -78,6 +78,17 @@ Razorpay's merchant verification asks for public terms, privacy, refund and cont
 at `/terms`, `/privacy`, `/refunds` and `/contact` — written for this business, but have them
 reviewed against your registered entity before you submit.
 
+## Add your bio
+
+`founder` in `src/lib/site.ts` carries the name, role and LinkedIn shown on the home and about
+pages. The `bio` field is empty and the card renders without it — nothing invented ships under a
+real name.
+
+Two or three sentences in your own words does more for conversion than anything else on the page:
+what you build, who you have taught, why you run these live. Fill it in and redeploy. A headshot
+in `public/` swapped into `src/components/founder-card.tsx` (in place of the initials block) is the
+other easy win.
+
 ## Not wired up yet: transactional email
 
 There is no mailer. Everything a learner needs is on the confirmation page — reference, joining
