@@ -78,6 +78,20 @@ Razorpay's merchant verification asks for public terms, privacy, refund and cont
 at `/terms`, `/privacy`, `/refunds` and `/contact` — written for this business, but have them
 reviewed against your registered entity before you submit.
 
+## Not wired up yet: transactional email
+
+There is no mailer. Everything a learner needs is on the confirmation page — reference, joining
+link, calendar file, downloads — and that page is the source of truth, but several places in the
+copy promise a confirmation *email* that nothing currently sends
+(`src/app/confirmation/[reference]/page.tsx`, `/terms`, the download unlock hint).
+
+Closing this needs a provider decision (Resend, SES, Postmark, plain SMTP) and credentials. The
+hook points are already in the right place: `confirmPayment()` in `src/lib/payments.ts` is the
+single moment a booking or enrolment becomes real, so one call from there covers both flows.
+
+Until it is wired, either send confirmations by hand from **Admin → Consultations** (every address
+is there) or soften the copy in those three places.
+
 ## How scheduling works
 
 The instructor only takes one-on-ones at weekends, so the weekend is banded to stop double-booking:
